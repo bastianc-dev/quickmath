@@ -33,6 +33,7 @@ operaciones.forEach(radio => {
 
 actualizarNumeros();
 
+
 // =========================
 // Cambio de pantalla
 // =========================
@@ -43,46 +44,35 @@ const gameScreen = document.getElementById("gameScreen");
 const btnInfinite = document.getElementById("btnInfinite");
 const btnTimer = document.getElementById("btnTimer");
 
+
 // =========================
-// Operaciones de prueba
+// Juego
 // =========================
 
 const operationElement = document.getElementById("operation");
 const answerInput = document.getElementById("answer");
 
-const operations = [
-    {
-        text: "34 + 29",
-        answer: "63"
-    },
-    {
-        text: "7 + 8",
-        answer: "15"
-    }
-];
+let currentProblem;
 
-let currentOperation = 0;
 
-function showOperation() {
-
-    operationElement.textContent = operations[currentOperation].text;
-
-    answerInput.value = "";
-    answerInput.focus();
-
-}
+// =========================
+// Iniciar juego
+// =========================
 
 function iniciarJuego() {
 
     menuScreen.style.display = "none";
     gameScreen.style.display = "flex";
 
-    showOperation();
+    generarNuevaOperacion();
+
+    answerInput.focus();
 
 }
 
 btnInfinite.addEventListener("click", iniciarJuego);
 btnTimer.addEventListener("click", iniciarJuego);
+
 
 // =========================
 // Comprobación automática
@@ -90,19 +80,138 @@ btnTimer.addEventListener("click", iniciarJuego);
 
 answerInput.addEventListener("input", () => {
 
-    // Solo permite números
+    // Solo números
     answerInput.value = answerInput.value.replace(/\D/g, "");
 
-    if (answerInput.value === operations[currentOperation].answer) {
+    if (answerInput.value === String(currentProblem.respuesta)) {
 
-        currentOperation++;
-
-        if (currentOperation >= operations.length) {
-            currentOperation = 0;
-        }
-
-        showOperation();
+        generarNuevaOperacion();
 
     }
 
 });
+
+
+// =========================
+// Generar nueva operación
+// =========================
+
+function generarNuevaOperacion() {
+
+    const operacion = document.querySelector(
+        'input[name="operacion"]:checked'
+    ).value;
+
+    switch (operacion) {
+
+        case "suma":
+            currentProblem = generarSuma();
+            break;
+
+        case "resta":
+            currentProblem = generarResta();
+            break;
+
+        case "multiplicacion":
+            currentProblem = generarMultiplicacion();
+            break;
+
+        case "division":
+            currentProblem = generarDivision();
+            break;
+
+    }
+
+    operationElement.textContent = currentProblem.texto;
+
+    answerInput.value = "";
+    answerInput.focus();
+
+}
+
+
+// =========================
+// Utilidades
+// =========================
+
+function numeroAleatorio(min, max) {
+
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+
+}
+
+
+// =========================
+// Generadores
+// =========================
+
+function generarSuma() {
+
+    const a = numeroAleatorio(10, 99);
+    const b = numeroAleatorio(10, 99);
+
+    return {
+
+        texto: `${a} + ${b}`,
+        respuesta: a + b
+
+    };
+
+}
+
+
+function generarResta() {
+
+    let a = numeroAleatorio(10, 99);
+    let b = numeroAleatorio(10, 99);
+
+    if (b > a) {
+        [a, b] = [b, a];
+    }
+
+    return {
+
+        texto: `${a} - ${b}`,
+        respuesta: a - b
+
+    };
+
+}
+
+
+function generarMultiplicacion() {
+
+    const a = numeroAleatorio(10, 99);
+
+    const b = Math.random() < 0.7
+        ? numeroAleatorio(1, 9)
+        : numeroAleatorio(10, 99);
+
+    return {
+
+        texto: `${a} × ${b}`,
+        respuesta: a * b
+
+    };
+
+}
+
+
+function generarDivision() {
+
+    const divisor = Math.random() < 0.7
+        ? numeroAleatorio(1, 9)
+        : numeroAleatorio(10, 99);
+
+    const cociente = numeroAleatorio(2, 20);
+
+    const dividendo = divisor * cociente;
+
+    return {
+
+        texto: `${dividendo} ÷ ${divisor}`,
+        respuesta: cociente
+
+    };
+
+}

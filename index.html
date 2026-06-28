@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quick Math</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="container">
@@ -18,57 +22,94 @@
         <span>MATH</span>
     </h1>
 
-    <div class="menu-buttons">
-        <button id="btnInfinite">Infinito</button>
-        <button id="btnTimer">Contrarreloj</button>
-        <button id="btnRecords">Récords</button>
+    <!-- =========================
+         MENÚ PRINCIPAL
+    ========================== -->
+
+    <div id="menuScreen">
+
+        <div class="menu-buttons">
+            <button id="btnInfinite">Infinito</button>
+            <button id="btnTimer">Contrarreloj</button>
+            <button id="btnRecords">Récords</button>
+        </div>
+
+        <section>
+            <h2>Operación</h2>
+
+            <div class="options">
+
+                <label>
+                    <input type="radio" name="operacion" value="suma" checked>
+                    Suma
+                </label>
+
+                <label>
+                    <input type="radio" name="operacion" value="resta">
+                    Resta
+                </label>
+
+                <label>
+                    <input type="radio" name="operacion" value="multiplicacion">
+                    Multiplicación
+                </label>
+
+                <label>
+                    <input type="radio" name="operacion" value="division">
+                    División
+                </label>
+
+            </div>
+        </section>
+
+        <section>
+            <h2>Números</h2>
+
+            <div class="options">
+
+                <label>
+                    <input type="radio" name="cifras" checked>
+                    <span id="opcion1">2 cifras</span>
+                </label>
+
+                <label>
+                    <input type="radio" name="cifras">
+                    <span id="opcion2">3 cifras</span>
+                </label>
+
+            </div>
+        </section>
+
     </div>
 
-    <section>
-    <h2>Operación</h2>
+    <!-- =========================
+         PANTALLA DEL JUEGO
+    ========================== -->
 
-    <div class="options">
+    <div id="gameScreen" style="display:none;">
 
-        <label>
-            <input type="radio" name="operacion" value="suma" checked>
-            Suma
-        </label>
+        <div class="game-info">
+            <p class="small-title">Promedio</p>
+            <p class="small-value">1.42 s</p>
+        </div>
 
-        <label>
-            <input type="radio" name="operacion" value="resta">
-            Resta
-        </label>
+        <div class="operation">
+            34 + 29
+        </div>
 
-        <label>
-            <input type="radio" name="operacion" value="multiplicacion">
-            Multiplicación
-        </label>
+        <input
+            type="text"
+            class="answer"
+            inputmode="numeric"
+            autocomplete="off"
+            spellcheck="false"
+        >
 
-        <label>
-            <input type="radio" name="operacion" value="division">
-            División
-        </label>
-
-    </div>
-</section>
-
-    <section>
-    <h2>Números</h2>
-
-    <div class="options">
-
-        <label>
-            <input type="radio" name="cifras" checked>
-            <span id="opcion1">2 cifras</span>
-        </label>
-
-        <label>
-            <input type="radio" name="cifras">
-            <span id="opcion2">3 cifras</span>
-        </label>
+        <button id="btnStop">
+            Parar
+        </button>
 
     </div>
-</section>
 
 </div>
 

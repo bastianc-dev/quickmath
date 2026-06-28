@@ -194,3 +194,83 @@ input[type="radio"]:hover {
     }
 
 }
+
+/* =========================
+   Pantalla del juego
+========================= */
+
+#gameScreen {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.game-info {
+
+    margin-bottom: 50px;
+
+}
+
+.small-title {
+
+    font-size: 1rem;
+    color: #666;
+
+}
+
+.small-value {
+
+    font-size: 1.5rem;
+
+}
+
+.operation {
+
+    font-size: 4rem;
+    color: #333;
+
+    margin-bottom: 25px;
+
+}
+
+.answer {
+
+    width: 220px;
+
+    text-align: center;
+
+    font-size: 2.5rem;
+
+    font-family: inherit;
+
+    padding: 10px;
+
+    border: none;
+    border-bottom: 3px solid #6a3de8;
+
+    background: transparent;
+    outline: none;
+
+    margin-bottom: 50px;
+
+}
+
+#btnStop {
+
+    width: 220px;
+
+    padding: 14px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #f2c94c;
+
+    font-family: inherit;
+    font-size: 1.3rem;
+
+    cursor: pointer;
+
+}

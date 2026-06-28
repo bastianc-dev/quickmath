@@ -28,3 +28,19 @@ operaciones.forEach(radio => {
 });
 
 actualizarNumeros();
+
+const menu = document.getElementById("menuScreen");
+const game = document.getElementById("gameScreen");
+
+const btnInfinite = document.getElementById("btnInfinite");
+const btnTimer = document.getElementById("btnTimer");
+
+function iniciarJuego() {
+
+    menu.style.display = "none";
+    game.style.display = "flex";
+
+}
+
+btnInfinite.addEventListener("click", iniciarJuego);
+btnTimer.addEventListener("click", iniciarJuego);

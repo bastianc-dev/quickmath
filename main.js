@@ -51,8 +51,18 @@ const btnTimer = document.getElementById("btnTimer");
 
 const operationElement = document.getElementById("operation");
 const answerInput = document.getElementById("answer");
+const averageTimeElement = document.getElementById("averageTime");
 
 let currentProblem;
+
+
+// =========================
+// Estadísticas
+// =========================
+
+let operationStartTime = 0;
+let totalTime = 0;
+let solvedOperations = 0;
 
 
 // =========================
@@ -63,6 +73,11 @@ function iniciarJuego() {
 
     menuScreen.style.display = "none";
     gameScreen.style.display = "flex";
+
+    totalTime = 0;
+    solvedOperations = 0;
+
+    actualizarPromedio();
 
     generarNuevaOperacion();
 
@@ -80,16 +95,42 @@ btnTimer.addEventListener("click", iniciarJuego);
 
 answerInput.addEventListener("input", () => {
 
-    // Solo números
     answerInput.value = answerInput.value.replace(/\D/g, "");
 
     if (answerInput.value === String(currentProblem.respuesta)) {
+
+        const tiempoRespuesta = Date.now() - operationStartTime;
+
+        totalTime += tiempoRespuesta;
+        solvedOperations++;
+
+        actualizarPromedio();
 
         generarNuevaOperacion();
 
     }
 
 });
+
+
+// =========================
+// Promedio
+// =========================
+
+function actualizarPromedio() {
+
+    if (solvedOperations === 0) {
+
+        averageTimeElement.textContent = "0.00 s";
+        return;
+
+    }
+
+    const promedio = totalTime / solvedOperations / 1000;
+
+    averageTimeElement.textContent = promedio.toFixed(2) + " s";
+
+}
 
 
 // =========================
@@ -126,6 +167,8 @@ function generarNuevaOperacion() {
 
     answerInput.value = "";
     answerInput.focus();
+
+    operationStartTime = Date.now();
 
 }
 

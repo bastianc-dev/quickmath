@@ -83,33 +83,35 @@
     </div>
 
     <!-- =========================
-         PANTALLA DEL JUEGO
-    ========================== -->
+     PANTALLA DEL JUEGO
+========================= -->
 
-    <div id="gameScreen" style="display:none;">
+<div id="gameScreen" style="display:none;">
 
-        <div class="game-info">
-            <p class="small-title">Promedio</p>
-            <p class="small-value">1.42 s</p>
-        </div>
-
-        <div class="operation">
-            34 + 29
-        </div>
-
-        <input
-            type="text"
-            class="answer"
-            inputmode="numeric"
-            autocomplete="off"
-            spellcheck="false"
-        >
-
-        <button id="btnStop">
-            Parar
-        </button>
-
+    <div class="game-info">
+        <p class="small-title">Promedio</p>
+        <p class="small-value">1.42 s</p>
     </div>
+
+    <div id="operation" class="operation">
+        34 + 29
+    </div>
+
+    <input
+        id="answer"
+        type="text"
+        class="answer"
+        inputmode="numeric"
+        autocomplete="off"
+        spellcheck="false"
+        maxlength="6"
+    >
+
+    <button id="btnStop">
+        Parar
+    </button>
+
+</div>
 
 </div>
 

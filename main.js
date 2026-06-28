@@ -258,3 +258,40 @@ function generarDivision() {
     };
 
 }
+
+const summaryScreen = document.getElementById("summaryScreen");
+
+const summaryOperations = document.getElementById("summaryOperations");
+const summaryAverage = document.getElementById("summaryAverage");
+
+const btnStop = document.getElementById("btnStop");
+const btnMenu = document.getElementById("btnMenu");
+
+function terminarJuego() {
+
+    gameScreen.style.display = "none";
+    summaryScreen.style.display = "flex";
+
+    summaryOperations.textContent = solvedOperations;
+
+    if (solvedOperations === 0) {
+
+        summaryAverage.textContent = "0.00 s";
+
+    } else {
+
+        summaryAverage.textContent =
+            (totalTime / solvedOperations / 1000).toFixed(2) + " s";
+
+    }
+
+}
+
+btnStop.addEventListener("click", terminarJuego);
+
+btnMenu.addEventListener("click", () => {
+
+    summaryScreen.style.display = "none";
+    menuScreen.style.display = "flex";
+
+});

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Math</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1 class="title">
+        <span>QUICK</span>
+        <span>MATH</span>
+    </h1>
+
+    <div class="menu-buttons">
+        <button id="btnInfinite">Infinito</button>
+        <button id="btnTimer">Contrarreloj</button>
+        <button id="btnRecords">Récords</button>
+    </div>
+
+    <section>
+        <h2>Operación</h2>
+
+        <div class="options">
+            <label>
+                <input type="radio" name="operacion" checked>
+                Suma
+            </label>
+
+            <label>
+                <input type="radio" name="operacion">
+                Resta
+            </label>
+
+            <label>
+                <input type="radio" name="operacion">
+                Multiplicación
+            </label>
+
+            <label>
+                <input type="radio" name="operacion">
+                División
+            </label>
+        </div>
+    </section>
+
+    <section>
+        <h2>Números</h2>
+
+        <div class="options">
+            <label>
+                <input type="radio" name="cifras" checked>
+                2 cifras
+            </label>
+
+            <label>
+                <input type="radio" name="cifras">
+                3 cifras
+            </label>
+        </div>
+    </section>
+
+</div>
+
+<script src="main.js"></script>
+
+</body>
+</html>

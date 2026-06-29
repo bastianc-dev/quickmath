@@ -383,3 +383,17 @@ input[type="radio"]:hover {
     border-top: 1px solid #ddd;
 
 }
+
+#timerScreen{
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+}
+
+#timerScreen h2{
+
+    margin-bottom:25px;
+
+}

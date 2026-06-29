@@ -12,6 +12,10 @@ const btnRecords = document.getElementById("btnRecords");
 const btnStop = document.getElementById("btnStop");
 const btnMenu = document.getElementById("btnMenu");
 
+const timerScreen = document.getElementById("timerScreen");
+const btnBackTimer = document.getElementById("btnBackTimer");
+const timeButtons = document.querySelectorAll(".timeButton");
+
 const timeSection = document.getElementById("timeSection");
 
 
@@ -155,7 +159,23 @@ function iniciarJuegoInfinito() {
 
 }
 
-function iniciarJuegoContrarreloj() {
+timeButtons.forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+        timerScreen.style.display="none";
+
+        iniciarJuegoContrarreloj(
+
+            Number(button.dataset.time)
+
+        );
+
+    });
+
+});
+
+function iniciarJuegoContrarreloj(segundos) {
 
     currentMode = "timer";
 
@@ -163,11 +183,7 @@ function iniciarJuegoContrarreloj() {
 
     gameInfoTitle.textContent = "Tiempo";
 
-    remainingTime = Number(
-        document.querySelector(
-            'input[name="time"]:checked'
-        ).value
-    );
+    remainingTime = segundos;
 
     actualizarTiempo();
 
@@ -199,10 +215,17 @@ btnInfinite.addEventListener(
     iniciarJuegoInfinito
 );
 
-btnTimer.addEventListener(
-    "click",
-    iniciarJuegoContrarreloj
-);
+btnTimer.addEventListener("click", () => {
+    menuScreen.style.display = "none";
+    timerScreen.style.display = "flex";
+});
+
+btnBackTimer.addEventListener("click", () => {
+
+    timerScreen.style.display = "none";
+    menuScreen.style.display = "block";
+
+});
 
 btnStop.addEventListener(
     "click",
@@ -677,22 +700,3 @@ function generarDivision(rango) {
     };
 
 }
-
-
-// =========================
-// Mostrar u ocultar tiempo
-// =========================
-
-btnInfinite.addEventListener("click", () => {
-
-    timeSection.style.display = "none";
-
-});
-
-btnTimer.addEventListener("click", () => {
-
-    timeSection.style.display = "block";
-
-});
-
-timeSection.style.display = "none";

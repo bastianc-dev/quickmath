@@ -130,51 +130,39 @@
 
         </section>
 
-        <section id="timeSection">
-
-            <h2>Tiempo</h2>
-
-            <div class="options">
-
-                <label>
-
-                    <input
-                        type="radio"
-                        name="time"
-                        value="60"
-                        checked>
-
-                    1 min
-
-                </label>
-
-                <label>
-
-                    <input
-                        type="radio"
-                        name="time"
-                        value="180">
-
-                    3 min
-
-                </label>
-
-                <label>
-
-                    <input
-                        type="radio"
-                        name="time"
-                        value="300">
-
-                    5 min
-
-                </label>
-
-            </div>
-
-        </section>
-
     </div>
+
+    <div id="timerScreen" class="container" style="display:none;">
+
+    <h2>Contrarreloj</h2>
+
+    <section>
+
+        <h2>Tiempo</h2>
+
+        <div class="menu-buttons">
+
+            <button class="timeButton" data-time="60">
+                1 minuto
+            </button>
+
+            <button class="timeButton" data-time="180">
+                3 minutos
+            </button>
+
+            <button class="timeButton" data-time="300">
+                5 minutos
+            </button>
+
+        </div>
+
+    </section>
+
+    <button id="btnBackTimer">
+        Volver
+    </button>
+
+</div>
 
     <!-- ==========================
          JUEGO

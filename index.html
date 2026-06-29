@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
 
@@ -33,22 +33,22 @@
         <div class="menu-buttons">
 
             <button id="btnInfinite">
-                Infinito
+                Infinite
             </button>
 
             <button id="btnTimer">
-                Contrarreloj
+                Timed
             </button>
 
             <button id="btnRecords">
-                Récords
+                Records
             </button>
 
         </div>
 
         <section>
 
-            <h2>Operación</h2>
+            <h2>Operation</h2>
 
             <div class="options">
 
@@ -59,7 +59,7 @@
                         value="suma"
                         checked>
 
-                    Suma
+                    Addition
                 </label>
 
                 <label>
@@ -68,7 +68,7 @@
                         name="operacion"
                         value="resta">
 
-                    Resta
+                    Subtraction
                 </label>
 
                 <label>
@@ -77,7 +77,7 @@
                         name="operacion"
                         value="multiplicacion">
 
-                    Multiplicación
+                    Multiplication
                 </label>
 
                 <label>
@@ -86,7 +86,7 @@
                         name="operacion"
                         value="division">
 
-                    División
+                    Division
                 </label>
 
             </div>
@@ -95,7 +95,7 @@
 
         <section>
 
-            <h2>Números</h2>
+            <h2>Digits</h2>
 
             <div class="options">
 
@@ -108,7 +108,7 @@
                         checked>
 
                     <span id="opcion1">
-                        2 cifras
+                        2 digits
                     </span>
 
                 </label>
@@ -121,7 +121,7 @@
                         value="dificil">
 
                     <span id="opcion2">
-                        3 cifras
+                        3 digits
                     </span>
 
                 </label>
@@ -134,32 +134,32 @@
 
     <div id="timerScreen" class="container" style="display:none;">
 
-    <h2>Contrarreloj</h2>
+    <h2>Timed</h2>
 
     <section>
 
-        <h2>Tiempo</h2>
+        <h2>Time</h2>
 
         <div class="menu-buttons">
 
             <button class="timeButton" data-time="60">
-                1 minuto
+                1 minute
             </button>
 
             <button class="timeButton" data-time="180">
-                3 minutos
+                3 minutes
             </button>
 
             <button class="timeButton" data-time="300">
-                5 minutos
+                5 minutes
             </button>
 
         </div>
 
     </section>
 
-    <button id="btnBackTimer">
-        Volver
+    <button id="btnBackTimer" class="small-button">
+        Back
     </button>
 
 </div>
@@ -173,7 +173,7 @@
         <div class="game-info">
 
             <p id="gameInfoTitle" class="small-title">
-                Promedio
+                Average
             </p>
 
             <p id="gameInfoValue" class="small-value">
@@ -197,8 +197,8 @@
             inputmode="numeric"
             autocomplete="off">
 
-        <button id="btnStop">
-            Parar
+        <button id="btnStop" class="small-button">
+            Stop
         </button>
 
     </div>
@@ -209,46 +209,52 @@
 
 <div id="summaryScreen" class="container" style="display:none;">
 
-    <h2>Resumen</h2>
+    <h2>Summary</h2>
 
     <div class="summary">
 
-        <p>Operaciones</p>
+        <p>Problems</p>
         <p id="summaryOperations">0</p>
 
         <br>
 
-        <p>Promedio</p>
+        <p>Average</p>
         <p id="summaryAverage">0.00 s</p>
 
     </div>
 
-    <button id="btnMenu">
-        Menú
+    <button id="btnMenu" class="small-button">
+        Menu
     </button>
 
 </div>
 
 <div id="recordsScreen" class="container" style="display:none;">
 
-    <h2>Récords</h2>
+    <h2>Records</h2>
 
     <div id="recordsList"></div>
 
-    <button id="btnRecordsMenu">
-        Menú
+    <button id="btnRecordsMenu" class="small-button">
+        Menu
     </button>
+
+    <button id="btnResetRecords" class="small-button">
+        Reset Records
+    </button>
+
+</div>
 
 </div>
 
     <div id="recordsScreen" class="container" style="display:none;">
 
-    <h2>Récords</h2>
+    <h2>Records</h2>
 
     <div id="recordsList"></div>
 
     <button id="btnRecordsMenu">
-        Menú
+        Menu
     </button>
 
 </div>

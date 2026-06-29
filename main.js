@@ -67,6 +67,9 @@ const recordsList =
 const btnRecordsMenu =
     document.getElementById("btnRecordsMenu");
 
+const btnResetRecords =
+    document.getElementById("btnResetRecords");
+
 // =========================
 // Estado del juego
 // =========================
@@ -100,13 +103,13 @@ function actualizarNumeros() {
         operacion === "resta"
     ) {
 
-        opcion1.textContent = "2 cifras";
-        opcion2.textContent = "3 cifras";
+        opcion1.textContent = "2 digits";
+        opcion2.textContent = "3 digits";
 
     } else {
 
-        opcion1.textContent = "1 cifra";
-        opcion2.textContent = "2 cifras";
+        opcion1.textContent = "1 digit";
+        opcion2.textContent = "2 digits";
 
     }
 
@@ -151,7 +154,7 @@ function iniciarJuegoInfinito() {
 
     prepararPartida();
 
-    gameInfoTitle.textContent = "Promedio";
+    gameInfoTitle.textContent = "Average";
 
     cargarRecord();
 
@@ -181,7 +184,7 @@ function iniciarJuegoContrarreloj(segundos) {
 
     prepararPartida();
 
-    gameInfoTitle.textContent = "Tiempo";
+    gameInfoTitle.textContent = "Time";
 
     remainingTime = segundos;
 
@@ -254,6 +257,43 @@ btnRecords.addEventListener("click", () => {
     recordsScreen.style.display = "flex";
 
 });
+
+function reiniciarRecords() {
+
+    const confirmar = confirm(
+        "Are you sure you want to delete all records?"
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    const claves = [
+        "suma_facil",
+        "suma_dificil",
+        "resta_facil",
+        "resta_dificil",
+        "multiplicacion_facil",
+        "multiplicacion_dificil",
+        "division_facil",
+        "division_dificil"
+    ];
+
+    claves.forEach(clave => {
+
+        localStorage.removeItem(clave);
+
+    });
+
+    recordsList.innerHTML =
+        "<p>No records yet.</p>";
+
+}
+
+btnResetRecords.addEventListener(
+    "click",
+    reiniciarRecords
+);
 
 // =========================
 // Respuesta automática
@@ -349,50 +389,50 @@ function mostrarRecords() {
 
         {
             clave: "suma_facil",
-            operacion: "Suma",
-            numeros: "2 cifras"
+            operacion: "Addition",
+            numeros: "2 digits"
         },
 
         {
             clave: "suma_dificil",
-            operacion: "Suma",
-            numeros: "3 cifras"
+            operacion: "Addition",
+            numeros: "3 digits"
         },
 
         {
             clave: "resta_facil",
-            operacion: "Resta",
-            numeros: "2 cifras"
+            operacion: "Substraction",
+            numeros: "2 digits"
         },
 
         {
             clave: "resta_dificil",
-            operacion: "Resta",
-            numeros: "3 cifras"
+            operacion: "Substraction",
+            numeros: "3 digits"
         },
 
         {
             clave: "multiplicacion_facil",
-            operacion: "Multiplicación",
-            numeros: "1 cifra"
+            operacion: "Multiplication",
+            numeros: "1 digit"
         },
 
         {
             clave: "multiplicacion_dificil",
-            operacion: "Multiplicación",
-            numeros: "2 cifras"
+            operacion: "Multiplication",
+            numeros: "2 digits"
         },
 
         {
             clave: "division_facil",
-            operacion: "División",
-            numeros: "1 cifra"
+            operacion: "Division",
+            numeros: "1 digit"
         },
 
         {
             clave: "division_dificil",
             operacion: "División",
-            numeros: "2 cifras"
+            numeros: "2 digits"
         }
 
     ];

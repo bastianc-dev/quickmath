@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Quick Math</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,131 +14,241 @@
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Patrick+Hand&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-<div class="container">
+    <!-- ==========================
+         MENÚ
+    =========================== -->
 
-    <h1 class="title">
-        <span>QUICK</span>
-        <span>MATH</span>
-    </h1>
+    <div id="menuScreen" class="container">
 
-    <!-- =========================
-         MENÚ PRINCIPAL
-    ========================== -->
-
-    <div id="menuScreen">
+        <h1 class="title">
+            <span>Quick</span>
+            <span>Math</span>
+        </h1>
 
         <div class="menu-buttons">
-            <button id="btnInfinite">Infinito</button>
-            <button id="btnTimer">Contrarreloj</button>
-            <button id="btnRecords">Récords</button>
+
+            <button id="btnInfinite">
+                Infinito
+            </button>
+
+            <button id="btnTimer">
+                Contrarreloj
+            </button>
+
+            <button id="btnRecords">
+                Récords
+            </button>
+
         </div>
 
         <section>
+
             <h2>Operación</h2>
 
             <div class="options">
 
                 <label>
-                    <input type="radio" name="operacion" value="suma" checked>
+                    <input
+                        type="radio"
+                        name="operacion"
+                        value="suma"
+                        checked>
+
                     Suma
                 </label>
 
                 <label>
-                    <input type="radio" name="operacion" value="resta">
+                    <input
+                        type="radio"
+                        name="operacion"
+                        value="resta">
+
                     Resta
                 </label>
 
                 <label>
-                    <input type="radio" name="operacion" value="multiplicacion">
+                    <input
+                        type="radio"
+                        name="operacion"
+                        value="multiplicacion">
+
                     Multiplicación
                 </label>
 
                 <label>
-                    <input type="radio" name="operacion" value="division">
+                    <input
+                        type="radio"
+                        name="operacion"
+                        value="division">
+
                     División
                 </label>
 
             </div>
+
         </section>
 
         <section>
+
             <h2>Números</h2>
 
             <div class="options">
 
                 <label>
-                    <input type="radio" name="cifras" checked>
-                    <span id="opcion1">2 cifras</span>
+
+                    <input
+                        type="radio"
+                        name="cifras"
+                        value="facil"
+                        checked>
+
+                    <span id="opcion1">
+                        2 cifras
+                    </span>
+
                 </label>
 
                 <label>
-                    <input type="radio" name="cifras">
-                    <span id="opcion2">3 cifras</span>
+
+                    <input
+                        type="radio"
+                        name="cifras"
+                        value="dificil">
+
+                    <span id="opcion2">
+                        3 cifras
+                    </span>
+
                 </label>
 
             </div>
+
+        </section>
+
+        <section id="timeSection">
+
+            <h2>Tiempo</h2>
+
+            <div class="options">
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="time"
+                        value="60"
+                        checked>
+
+                    1 min
+
+                </label>
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="time"
+                        value="180">
+
+                    3 min
+
+                </label>
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="time"
+                        value="300">
+
+                    5 min
+
+                </label>
+
+            </div>
+
         </section>
 
     </div>
 
-    <!-- =========================
-     PANTALLA DEL JUEGO
-========================= -->
+    <!-- ==========================
+         JUEGO
+    =========================== -->
 
-<div id="gameScreen" style="display:none;">
+    <div id="gameScreen" class="container" style="display:none;">
 
-    <p class="small-title">Promedio</p>
-    <p id="averageTime" class="small-value">0.00 s</p>
+        <div class="game-info">
 
-    <div id="operation" class="operation">
-        34 + 29
-    </div>
+            <p id="gameInfoTitle" class="small-title">
+                Promedio
+            </p>
 
-    <input
-        id="answer"
-        type="text"
-        class="answer"
-        inputmode="numeric"
-        autocomplete="off"
-        spellcheck="false"
-        maxlength="6"
-    >
+            <p id="gameInfoValue" class="small-value">
+                0.00 s
+            </p>
 
-    <button id="btnStop">
-        Parar
-    </button>
+        </div>
 
-</div>
+        <div
+            id="operation"
+            class="operation">
 
-<div id="summaryScreen" style="display:none;">
+            0 + 0
 
-    <h2>Resumen</h2>
+        </div>
 
-    <div class="summary">
+        <input
+            id="answer"
+            class="answer"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off">
 
-        <p>Operaciones</p>
-        <p id="summaryOperations">0</p>
-
-        <br>
-
-        <p>Promedio</p>
-        <p id="summaryAverage">0.00 s</p>
+        <button id="btnStop">
+            Parar
+        </button>
 
     </div>
 
-    <button id="btnMenu">
-        Menú
-    </button>
+    <!-- ==========================
+         RESUMEN
+    =========================== -->
 
-</div>
+    <div id="summaryScreen" class="container" style="display:none;">
 
-</div>
+        <h2>Resumen</h2>
 
-<script src="main.js"></script>
+        <div class="summary">
+
+            <p>Operaciones</p>
+
+            <p id="summaryOperations">
+                0
+            </p>
+
+            <br>
+
+            <p>Promedio</p>
+
+            <p id="summaryAverage">
+                0.00 s
+            </p>
+
+        </div>
+
+        <button id="btnMenu">
+            Menú
+        </button>
+
+    </div>
+
+    <script src="main.js"></script>
 
 </body>
+
 </html>

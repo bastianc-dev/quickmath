@@ -8,6 +8,7 @@ const summaryScreen = document.getElementById("summaryScreen");
 
 const btnInfinite = document.getElementById("btnInfinite");
 const btnTimer = document.getElementById("btnTimer");
+const btnRecords = document.getElementById("btnRecords");
 const btnStop = document.getElementById("btnStop");
 const btnMenu = document.getElementById("btnMenu");
 
@@ -53,6 +54,14 @@ const summaryOperations =
 const summaryAverage =
     document.getElementById("summaryAverage");
 
+const recordsScreen =
+    document.getElementById("recordsScreen");
+
+const recordsList =
+    document.getElementById("recordsList");
+
+const btnRecordsMenu =
+    document.getElementById("btnRecordsMenu");
 
 // =========================
 // Estado del juego
@@ -70,6 +79,7 @@ let solvedOperations = 0;
 let timerInterval = null;
 let remainingTime = 0;
 
+let currentRecord = null;
 
 // =========================
 // Dificultad visible
@@ -139,6 +149,8 @@ function iniciarJuegoInfinito() {
 
     gameInfoTitle.textContent = "Promedio";
 
+    cargarRecord();
+
     actualizarPromedio();
 
 }
@@ -204,6 +216,21 @@ btnMenu.addEventListener("click", () => {
 
 });
 
+btnRecordsMenu.addEventListener("click", () => {
+
+    recordsScreen.style.display = "none";
+    menuScreen.style.display = "block";
+
+});
+
+btnRecords.addEventListener("click", () => {
+
+    mostrarRecords();
+
+    menuScreen.style.display = "none";
+    recordsScreen.style.display = "flex";
+
+});
 
 // =========================
 // Respuesta automática
@@ -241,6 +268,136 @@ answerInput.addEventListener(
     }
 );
 
+// =========================
+// Local Storage
+// =========================
+
+function obtenerClaveRecord() {
+
+    const operacion = document.querySelector(
+        'input[name="operacion"]:checked'
+    ).value;
+
+    const rango = document.querySelector(
+        'input[name="cifras"]:checked'
+    ).value;
+
+    return `${operacion}_${rango}`;
+
+}
+
+function cargarRecord() {
+
+    const clave = obtenerClaveRecord();
+
+    const record = localStorage.getItem(clave);
+
+    if (record === null) {
+
+        currentRecord = null;
+
+        return;
+
+    }
+
+    currentRecord = Number(record);
+
+}
+
+function guardarRecord(promedio) {
+
+    const clave = obtenerClaveRecord();
+
+    localStorage.setItem(clave, promedio);
+
+    currentRecord = promedio;
+
+}
+
+// =========================
+// Records
+// =========================
+
+function mostrarRecords() {
+
+    recordsList.innerHTML = "";
+
+    const records = [
+
+        {
+            clave: "suma_facil",
+            operacion: "Suma",
+            numeros: "2 cifras"
+        },
+
+        {
+            clave: "suma_dificil",
+            operacion: "Suma",
+            numeros: "3 cifras"
+        },
+
+        {
+            clave: "resta_facil",
+            operacion: "Resta",
+            numeros: "2 cifras"
+        },
+
+        {
+            clave: "resta_dificil",
+            operacion: "Resta",
+            numeros: "3 cifras"
+        },
+
+        {
+            clave: "multiplicacion_facil",
+            operacion: "Multiplicación",
+            numeros: "1 cifra"
+        },
+
+        {
+            clave: "multiplicacion_dificil",
+            operacion: "Multiplicación",
+            numeros: "2 cifras"
+        },
+
+        {
+            clave: "division_facil",
+            operacion: "División",
+            numeros: "1 cifra"
+        },
+
+        {
+            clave: "division_dificil",
+            operacion: "División",
+            numeros: "2 cifras"
+        }
+
+    ];
+
+    records.forEach(record => {
+
+        const valor =
+            localStorage.getItem(record.clave);
+
+        if (valor === null) {
+            return;
+        }
+
+        const bloque =
+            document.createElement("div");
+
+        bloque.innerHTML = `
+            <p>${record.operacion}</p>
+            <p>${record.numeros}</p>
+            <p>${Number(valor).toFixed(2)} s</p>
+            <hr>
+        `;
+
+        recordsList.appendChild(bloque);
+
+    });
+
+}
 
 // =========================
 // Estadísticas
@@ -250,8 +407,16 @@ function actualizarPromedio() {
 
     if (solvedOperations === 0) {
 
-        gameInfoValue.textContent =
-            "0.00 s";
+        if (currentRecord === null) {
+
+            gameInfoValue.textContent = "0.00 s";
+
+        } else {
+
+            gameInfoValue.textContent =
+                currentRecord.toFixed(2) + " s";
+
+        }
 
         return;
 
@@ -261,6 +426,15 @@ function actualizarPromedio() {
         totalTime /
         solvedOperations /
         1000;
+
+    if (
+        currentRecord === null ||
+        promedio < currentRecord
+    ) {
+
+        guardarRecord(promedio);
+
+    }
 
     gameInfoValue.textContent =
         promedio.toFixed(2) + " s";

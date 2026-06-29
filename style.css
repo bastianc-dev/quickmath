@@ -346,3 +346,40 @@ input[type="radio"]:hover {
     }
 
 }
+
+#recordsScreen {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#recordsList {
+
+    margin: 30px 0;
+    width: 100%;
+
+}
+
+#recordsList div {
+
+    margin-bottom: 20px;
+
+}
+
+#recordsList p {
+
+    font-size: 1.4rem;
+    margin: 4px 0;
+
+}
+
+#recordsList hr {
+
+    margin-top: 12px;
+
+    border: none;
+    border-top: 1px solid #ddd;
+
+}

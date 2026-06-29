@@ -14,9 +14,7 @@ const btnMenu = document.getElementById("btnMenu");
 
 const timerScreen = document.getElementById("timerScreen");
 const btnBackTimer = document.getElementById("btnBackTimer");
-const timeButtons = document.querySelectorAll(".timeButton");
-
-const timeSection = document.getElementById("timeSection");
+const timeButtons = document.querySelectorAll("#timerScreen button[data-time]");
 
 
 // =========================
@@ -401,13 +399,13 @@ function mostrarRecords() {
 
         {
             clave: "resta_facil",
-            operacion: "Substraction",
+            operacion: "Subtraction",
             numeros: "2 digits"
         },
 
         {
             clave: "resta_dificil",
-            operacion: "Substraction",
+            operacion: "Subtraction",
             numeros: "3 digits"
         },
 
@@ -431,7 +429,7 @@ function mostrarRecords() {
 
         {
             clave: "division_dificil",
-            operacion: "División",
+            operacion: "Division",
             numeros: "2 digits"
         }
 
@@ -439,27 +437,28 @@ function mostrarRecords() {
 
     records.forEach(record => {
 
-        const valor =
-            localStorage.getItem(record.clave);
+    const valor = localStorage.getItem(record.clave);
 
-        if (valor === null) {
-            return;
-        }
+    if (valor === null) {
+        return;
+    }
 
-        const bloque =
-            document.createElement("div");
+    const bloque = document.createElement("div");
 
-        bloque.innerHTML = `
-            <p>${record.operacion}</p>
-            <p>${record.numeros}</p>
-            <p>${Number(valor).toFixed(2)} s</p>
-            <hr>
-        `;
+    bloque.innerHTML = `
+        <p>${record.operacion}</p>
+        <p>${record.numeros}</p>
+        <p>${Number(valor).toFixed(2)} s</p>
+        <hr>
+    `;
 
-        recordsList.appendChild(bloque);
+    recordsList.appendChild(bloque);
 
-    });
+});
 
+if (recordsList.children.length === 0) {
+    recordsList.innerHTML = "<p>No records yet.</p>";
+}
 }
 
 // =========================

@@ -259,6 +259,21 @@ input[type="radio"]:hover {
     align-items: center;
 }
 
+#gameScreen,
+#summaryScreen,
+#recordsScreen,
+#timerScreen {
+    flex-direction: column;
+    align-items: center;
+}
+
+#gameScreen[hidden],
+#summaryScreen[hidden],
+#recordsScreen[hidden],
+#timerScreen[hidden] {
+    display: none !important;
+}
+
 #gameScreen:not([hidden]),
 #summaryScreen:not([hidden]),
 #recordsScreen:not([hidden]),

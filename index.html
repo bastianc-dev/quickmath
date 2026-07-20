@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,20 +9,20 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Patrick+Hand&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
-    <!-- ==========================
-         MENÚ
-    =========================== -->
+    <!-- =========================
+         MAIN MENU
+    ========================== -->
 
-    <div id="menuScreen" class="container">
+    <main id="menuScreen" class="container screen">
 
         <h1 class="title">
             <span>Quick</span>
@@ -31,34 +30,29 @@
         </h1>
 
         <div class="menu-buttons">
-
-            <button id="btnInfinite">
+            <button id="btnInfinite" type="button">
                 Infinite
             </button>
 
-            <button id="btnTimer">
+            <button id="btnTimer" type="button">
                 Timed
             </button>
 
-            <button id="btnRecords">
+            <button id="btnRecords" type="button">
                 Records
             </button>
-
         </div>
 
         <section>
-
             <h2>Operation</h2>
 
             <div class="options">
-
                 <label>
                     <input
                         type="radio"
                         name="operacion"
                         value="suma"
                         checked>
-
                     Addition
                 </label>
 
@@ -67,7 +61,6 @@
                         type="radio"
                         name="operacion"
                         value="resta">
-
                     Subtraction
                 </label>
 
@@ -76,7 +69,6 @@
                         type="radio"
                         name="operacion"
                         value="multiplicacion">
-
                     Multiplication
                 </label>
 
@@ -85,93 +77,75 @@
                         type="radio"
                         name="operacion"
                         value="division">
-
                     Division
                 </label>
-
             </div>
-
         </section>
 
         <section>
-
             <h2>Digits</h2>
 
             <div class="options">
-
                 <label>
-
                     <input
                         type="radio"
                         name="cifras"
                         value="facil"
                         checked>
 
-                    <span id="opcion1">
-                        2 digits
-                    </span>
-
+                    <span id="opcion1">2 digits</span>
                 </label>
 
                 <label>
-
                     <input
                         type="radio"
                         name="cifras"
                         value="dificil">
 
-                    <span id="opcion2">
-                        3 digits
-                    </span>
-
+                    <span id="opcion2">3 digits</span>
                 </label>
-
             </div>
-
         </section>
 
-    </div>
+    </main>
 
-    <div id="timerScreen" class="container" style="display:none;">
+    <!-- =========================
+         TIME SELECTION
+    ========================== -->
 
-    <h2>Timed</h2>
+    <section id="timerScreen" class="container screen" hidden>
+        <h2 class="screen-title">Timed</h2>
 
-    <section>
-
-        <h2>Time</h2>
+        <p class="screen-description">
+            Choose how long you want to play.
+        </p>
 
         <div class="menu-buttons">
-
-            <button data-time="60">
+            <button type="button" data-time="60">
                 1 minute
             </button>
 
-            <button data-time="180">
+            <button type="button" data-time="180">
                 3 minutes
             </button>
 
-            <button data-time="300">
+            <button type="button" data-time="300">
                 5 minutes
             </button>
-
         </div>
 
+        <button id="btnBackTimer" class="small-button secondary-button" type="button">
+            Back
+        </button>
     </section>
 
-    <button id="btnBackTimer" class="small-button">
-        Back
-    </button>
+    <!-- =========================
+         GAME
+    ========================== -->
 
-</div>
-
-    <!-- ==========================
-         JUEGO
-    =========================== -->
-
-    <div id="gameScreen" class="container" style="display:none;">
+    <section id="gameScreen" class="container screen" hidden>
 
         <div class="game-info">
-
             <p id="gameInfoTitle" class="small-title">
                 Average
             </p>
@@ -179,71 +153,76 @@
             <p id="gameInfoValue" class="small-value">
                 0.00 s
             </p>
-
         </div>
 
         <div
             id="operation"
-            class="operation">
-
+            class="operation"
+            aria-live="polite">
             0 + 0
-
         </div>
+
+        <label class="visually-hidden" for="answer">
+            Answer
+        </label>
 
         <input
             id="answer"
             class="answer"
             type="text"
             inputmode="numeric"
-            autocomplete="off">
+            autocomplete="off"
+            aria-label="Answer">
 
-        <button id="btnStop" class="small-button">
+        <button id="btnStop" class="small-button" type="button">
             Stop
         </button>
 
-    </div>
+    </section>
 
-    <!-- ==========================
-         RESUMEN
-    =========================== -->
+    <!-- =========================
+         SUMMARY
+    ========================== -->
 
-<div id="summaryScreen" class="container" style="display:none;">
+    <section id="summaryScreen" class="container screen" hidden>
+        <h2 class="screen-title">Summary</h2>
 
-    <h2>Summary</h2>
+        <div class="summary">
+            <p>Problems</p>
+            <p id="summaryOperations" class="summary-value">0</p>
 
-    <div class="summary">
+            <p>Average</p>
+            <p id="summaryAverage" class="summary-value">0.00 s</p>
 
-        <p>Problems</p>
-        <p id="summaryOperations">0</p>
+            <p id="summaryRecord" class="record-message" hidden>
+                New record!
+            </p>
+        </div>
 
-        <br>
+        <button id="btnMenu" class="small-button" type="button">
+            Menu
+        </button>
+    </section>
 
-        <p>Average</p>
-        <p id="summaryAverage">0.00 s</p>
+    <!-- =========================
+         RECORDS
+    ========================== -->
 
-    </div>
+    <section id="recordsScreen" class="container screen" hidden>
+        <h2 class="screen-title">Records</h2>
 
-    <button id="btnMenu" class="small-button">
-        Menu
-    </button>
+        <div id="recordsList" aria-live="polite"></div>
 
-</div>
+        <div class="secondary-actions">
+            <button id="btnRecordsMenu" class="small-button" type="button">
+                Menu
+            </button>
 
-<div id="recordsScreen" class="container" style="display:none;">
-
-    <h2>Records</h2>
-
-    <div id="recordsList"></div>
-
-    <button id="btnRecordsMenu" class="small-button">
-        Menu
-    </button>
-
-    <button id="btnResetRecords" class="small-button">
-        Reset Records
-    </button>
-
-</div>
+            <button id="btnResetRecords" class="small-button secondary-button" type="button">
+                Reset Records
+            </button>
+        </div>
+    </section>
 
     <script src="main.js"></script>
 

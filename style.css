@@ -8,47 +8,78 @@
     box-sizing: border-box;
 }
 
+
 /* =========================
-   Página
+   Page
 ========================= */
 
 body {
-
-    font-family: "Patrick Hand", cursive;
-
     min-height: 100vh;
+    padding: 32px 0;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    background-color: #fafafa;
+    font-family: "Patrick Hand", cursive;
 
+    background-color: #fafafa;
     background-image:
         linear-gradient(#ececec 1px, transparent 1px),
         linear-gradient(90deg, #ececec 1px, transparent 1px);
-
     background-size: 40px 40px;
-
 }
 
+button,
+input {
+    font: inherit;
+}
+
+button:focus-visible,
+input[type="radio"]:focus-visible {
+    outline: 3px solid rgba(106, 61, 232, 0.35);
+    outline-offset: 4px;
+}
+
+.answer:focus,
+.answer:focus-visible {
+    outline: none;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+
 /* =========================
-   Contenedor
+   Shared screens
 ========================= */
 
 .container {
-
     width: min(700px, 90%);
     text-align: center;
-
 }
 
+.screen-title {
+    margin-bottom: 12px;
+
+    color: #444;
+    font-size: 2.2rem;
+}
+
+.screen-description {
+    margin-bottom: 30px;
+
+    color: #666;
+    font-size: 1.2rem;
+}
+
+
 /* =========================
-   Título
+   Main title
 ========================= */
 
 .title {
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -59,29 +90,24 @@ body {
     font-size: 7rem;
     font-weight: 700;
 
-    line-height: .82;
+    line-height: 0.82;
     letter-spacing: 2px;
-
 }
 
 .title span:first-child {
-
     color: #6a3de8;
-
 }
 
 .title span:last-child {
-
     color: #444;
-
 }
 
+
 /* =========================
-   Botones principales
+   Buttons
 ========================= */
 
 .menu-buttons {
-
     width: 340px;
 
     margin: 0 auto 45px;
@@ -89,18 +115,10 @@ body {
     display: flex;
     flex-direction: column;
     gap: 16px;
-
 }
 
-.menu-buttons button {
-
-    width: 100%;
-
-    padding: 14px;
-
-    font-family: inherit;
-    font-size: 1.35rem;
-
+.menu-buttons button,
+.small-button {
     border: none;
     border-radius: 10px;
 
@@ -109,99 +127,99 @@ body {
 
     cursor: pointer;
 
-    transition: .2s;
+    transition:
+        background-color 0.2s,
+        transform 0.2s;
+}
 
+.menu-buttons button {
+    width: 100%;
+    padding: 14px;
+
+    font-size: 1.35rem;
 }
 
 .small-button {
-
     width: 170px;
 
     padding: 10px 18px;
-
     margin-top: 20px;
 
-    border: none;
-    border-radius: 10px;
-
-    background: #f2c94c;
-
-    font-family: inherit;
     font-size: 1.1rem;
-
-    cursor: pointer;
-
-    transition: .2s;
-
 }
 
+.menu-buttons button:hover,
 .small-button:hover {
-
     background: #e4bc45;
     transform: translateY(-2px);
-
 }
 
-.menu-buttons button:hover {
-
-    background: #e4bc45;
-    transform: translateY(-2px);
-
+.menu-buttons button:active,
+.small-button:active {
+    transform: translateY(0);
 }
+
+.secondary-button {
+    background: #6a3de8;
+    color: white;
+}
+
+.secondary-button:hover {
+    background: #5830ca;
+}
+
+.secondary-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
 
 /* =========================
-   Secciones
+   Menu sections
 ========================= */
 
-section {
-
+#menuScreen section {
     margin-bottom: 30px;
-
 }
 
-section h2 {
-
+#menuScreen section h2 {
     margin-bottom: 12px;
 
     color: #444;
-
     font-size: 1.5rem;
-
 }
 
+
 /* =========================
-   Opciones
+   Options
 ========================= */
 
 .options {
-
     display: flex;
     justify-content: center;
     gap: 30px;
     flex-wrap: wrap;
-
 }
 
 .options label {
-
     display: flex;
     align-items: center;
     gap: 8px;
 
+    color: #444;
     font-size: 1.25rem;
 
     cursor: pointer;
-
-    color: #444;
-
 }
 
+
 /* =========================
-   Radios cuadrados
+   Custom radios
 ========================= */
 
 input[type="radio"] {
-
     appearance: none;
     -webkit-appearance: none;
 
@@ -215,222 +233,209 @@ input[type="radio"] {
 
     cursor: pointer;
 
-    transition: .15s;
-
+    transition:
+        transform 0.15s,
+        background-color 0.15s;
 }
 
 input[type="radio"]:checked {
-
     background: #6a3de8;
-
 }
 
 input[type="radio"]:hover {
-
     transform: scale(1.08);
-
 }
 
+
 /* =========================
-   Pantalla del juego
+   Game
 ========================= */
 
-#gameScreen {
-
-    display: flex;
+#gameScreen,
+#summaryScreen,
+#recordsScreen,
+#timerScreen {
     flex-direction: column;
     align-items: center;
-
 }
 
-/* =========================
-   Información superior
-========================= */
+#gameScreen:not([hidden]),
+#summaryScreen:not([hidden]),
+#recordsScreen:not([hidden]),
+#timerScreen:not([hidden]) {
+    display: flex;
+}
 
 .game-info {
-
     margin-bottom: 45px;
-
 }
 
 .small-title {
-
     color: #666;
     font-size: 1rem;
-
 }
 
 .small-value {
-
-    font-size: 1.6rem;
     color: #333;
-
+    font-size: 1.6rem;
 }
-
-/* =========================
-   Operación
-========================= */
 
 .operation {
-
-    font-family: "Patrick Hand", cursive;
-
-    font-size: 7rem;
-
-
-    line-height: 1;
+    margin-bottom: 40px;
 
     color: #333;
 
-    margin-bottom: 40px;
-
+    font-size: 7rem;
+    line-height: 1;
 }
 
-/* =========================
-   Respuesta
-========================= */
-
 .answer {
-
     width: 240px;
 
     padding: 10px;
-
-    font-family: inherit;
-    font-size: 2.6rem;
-
-    text-align: center;
+    margin-bottom: 45px;
 
     border: none;
     border-bottom: 3px solid #6a3de8;
 
     background: transparent;
 
+    color: #333;
+    font-size: 2.6rem;
+    text-align: center;
+
     outline: none;
-
-    margin-bottom: 45px;
-
 }
+
+.answer:disabled {
+    opacity: 0.6;
+}
+
 
 /* =========================
-   Resumen
+   Summary
 ========================= */
 
-#summaryScreen {
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-}
-
 .summary {
-
     margin: 35px 0;
-
 }
 
 .summary p {
-
     margin: 8px 0;
 
-    font-size: 1.5rem;
-
+    font-size: 1.4rem;
 }
+
+.summary-value {
+    color: #333;
+    font-size: 1.8rem !important;
+}
+
+.record-message {
+    margin-top: 24px !important;
+
+    color: #6a3de8;
+    font-size: 1.7rem !important;
+}
+
+
+/* =========================
+   Records
+========================= */
+
+#recordsList {
+    width: min(440px, 100%);
+    margin: 30px 0;
+}
+
+.record-item {
+    margin-bottom: 14px;
+    padding: 16px 20px;
+
+    border: 1px solid #e3e3e3;
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.78);
+}
+
+.record-item p {
+    margin: 3px 0;
+
+    color: #555;
+    font-size: 1.25rem;
+}
+
+.record-operation {
+    color: #333 !important;
+    font-size: 1.45rem !important;
+}
+
+.record-time {
+    color: #6a3de8 !important;
+    font-size: 1.55rem !important;
+}
+
+
+/* =========================
+   Accessibility
+========================= */
+
+.visually-hidden {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+
+    white-space: nowrap;
+    border: 0;
+}
+
 
 /* =========================
    Responsive
 ========================= */
 
 @media (max-width: 600px) {
+    body {
+        align-items: flex-start;
+        padding-top: 40px;
+    }
 
     .container {
-
         width: 94%;
-
     }
 
     .title {
-
         font-size: 5rem;
-
     }
 
     .menu-buttons {
-
         width: 100%;
-
     }
 
     .options {
-
         flex-direction: column;
+        align-items: center;
         gap: 12px;
-
     }
 
     .operation {
-
-        font-size: 3rem;
-
+        font-size: clamp(3rem, 16vw, 5rem);
     }
 
     .answer {
-
-        width: 100%;
+        width: min(100%, 280px);
         font-size: 2.2rem;
-
     }
 
-}
-
-#recordsScreen {
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-}
-
-#recordsList {
-
-    margin: 30px 0;
-    width: 100%;
-
-}
-
-#recordsList div {
-
-    margin-bottom: 20px;
-
-}
-
-#recordsList p {
-
-    font-size: 1.4rem;
-    margin: 4px 0;
-
-}
-
-#recordsList hr {
-
-    margin-top: 12px;
-
-    border: none;
-    border-top: 1px solid #ddd;
-
-}
-
-#timerScreen{
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-
-}
-
-#timerScreen h2{
-
-    margin-bottom:25px;
-
+    .secondary-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+    }
 }

@@ -1,25 +1,33 @@
 // =========================
-// Elementos del menú
+// Elementos de la interfaz
 // =========================
 
 const menuScreen = document.getElementById("menuScreen");
+const timerScreen = document.getElementById("timerScreen");
 const gameScreen = document.getElementById("gameScreen");
 const summaryScreen = document.getElementById("summaryScreen");
+const recordsScreen = document.getElementById("recordsScreen");
+
+const screens = [
+    menuScreen,
+    timerScreen,
+    gameScreen,
+    summaryScreen,
+    recordsScreen
+];
 
 const btnInfinite = document.getElementById("btnInfinite");
 const btnTimer = document.getElementById("btnTimer");
 const btnRecords = document.getElementById("btnRecords");
+const btnBackTimer = document.getElementById("btnBackTimer");
 const btnStop = document.getElementById("btnStop");
 const btnMenu = document.getElementById("btnMenu");
+const btnRecordsMenu = document.getElementById("btnRecordsMenu");
+const btnResetRecords = document.getElementById("btnResetRecords");
 
-const timerScreen = document.getElementById("timerScreen");
-const btnBackTimer = document.getElementById("btnBackTimer");
-const timeButtons = document.querySelectorAll("#timerScreen button[data-time]");
-
-
-// =========================
-// Operación seleccionada
-// =========================
+const timeButtons = document.querySelectorAll(
+    "#timerScreen button[data-time]"
+);
 
 const operationRadios = document.querySelectorAll(
     'input[name="operacion"]'
@@ -28,98 +36,118 @@ const operationRadios = document.querySelectorAll(
 const opcion1 = document.getElementById("opcion1");
 const opcion2 = document.getElementById("opcion2");
 
+const operationElement = document.getElementById("operation");
+const answerInput = document.getElementById("answer");
+const gameInfoTitle = document.getElementById("gameInfoTitle");
+const gameInfoValue = document.getElementById("gameInfoValue");
 
-// =========================
-// Pantalla de juego
-// =========================
+const summaryOperations = document.getElementById("summaryOperations");
+const summaryAverage = document.getElementById("summaryAverage");
+const summaryRecord = document.getElementById("summaryRecord");
 
-const operationElement =
-    document.getElementById("operation");
-
-const answerInput =
-    document.getElementById("answer");
-
-const gameInfoTitle =
-    document.getElementById("gameInfoTitle");
-
-const gameInfoValue =
-    document.getElementById("gameInfoValue");
+const recordsList = document.getElementById("recordsList");
 
 
 // =========================
-// Pantalla resumen
+// Definición de récords
 // =========================
 
-const summaryOperations =
-    document.getElementById("summaryOperations");
+const RECORDS = [
+    {
+        clave: "suma_facil",
+        operacion: "Addition",
+        numeros: "2 digits"
+    },
+    {
+        clave: "suma_dificil",
+        operacion: "Addition",
+        numeros: "3 digits"
+    },
+    {
+        clave: "resta_facil",
+        operacion: "Subtraction",
+        numeros: "2 digits"
+    },
+    {
+        clave: "resta_dificil",
+        operacion: "Subtraction",
+        numeros: "3 digits"
+    },
+    {
+        clave: "multiplicacion_facil",
+        operacion: "Multiplication",
+        numeros: "1 digit"
+    },
+    {
+        clave: "multiplicacion_dificil",
+        operacion: "Multiplication",
+        numeros: "2 digits"
+    },
+    {
+        clave: "division_facil",
+        operacion: "Division",
+        numeros: "1 digit"
+    },
+    {
+        clave: "division_dificil",
+        operacion: "Division",
+        numeros: "2 digits"
+    }
+];
 
-const summaryAverage =
-    document.getElementById("summaryAverage");
-
-const recordsScreen =
-    document.getElementById("recordsScreen");
-
-const recordsList =
-    document.getElementById("recordsList");
-
-const btnRecordsMenu =
-    document.getElementById("btnRecordsMenu");
-
-const btnResetRecords =
-    document.getElementById("btnResetRecords");
 
 // =========================
 // Estado del juego
 // =========================
 
 let currentProblem = null;
-
 let currentMode = "infinite";
+let gameActive = false;
 
 let operationStartTime = 0;
-
 let totalTime = 0;
 let solvedOperations = 0;
 
 let timerInterval = null;
+let timerEndTime = 0;
 let remainingTime = 0;
 
-let currentRecord = null;
 
 // =========================
-// Dificultad visible
+// Navegación entre pantallas
+// =========================
+
+function mostrarPantalla(screenToShow) {
+    screens.forEach(screen => {
+        screen.hidden = screen !== screenToShow;
+    });
+}
+
+
+// =========================
+// Opciones de cifras
 // =========================
 
 function actualizarNumeros() {
-
     const operacion = document.querySelector(
         'input[name="operacion"]:checked'
     ).value;
 
-    if (
+    const esSumaOResta =
         operacion === "suma" ||
-        operacion === "resta"
-    ) {
+        operacion === "resta";
 
-        opcion1.textContent = "2 digits";
-        opcion2.textContent = "3 digits";
+    opcion1.textContent = esSumaOResta
+        ? "2 digits"
+        : "1 digit";
 
-    } else {
-
-        opcion1.textContent = "1 digit";
-        opcion2.textContent = "2 digits";
-
-    }
-
+    opcion2.textContent = esSumaOResta
+        ? "3 digits"
+        : "2 digits";
 }
 
 operationRadios.forEach(radio => {
-
-    radio.addEventListener(
-        "change",
-        actualizarNumeros
-    );
-
+    radio.addEventListener("change", actualizarNumeros);
 });
 
 actualizarNumeros();
@@ -129,54 +157,48 @@ actualizarNumeros();
 // Inicio de partida
 // =========================
 
+function detenerTemporizador() {
+    if (timerInterval !== null) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+}
+
 function prepararPartida() {
+    detenerTemporizador();
 
     totalTime = 0;
     solvedOperations = 0;
+    remainingTime = 0;
+    timerEndTime = 0;
 
+    currentProblem = null;
+    gameActive = true;
+
+    answerInput.disabled = false;
     answerInput.value = "";
 
-    menuScreen.style.display = "none";
-    summaryScreen.style.display = "none";
-    gameScreen.style.display = "flex";
+    summaryRecord.hidden = true;
 
+    mostrarPantalla(gameScreen);
     generarNuevaOperacion();
 
     answerInput.focus();
-
 }
 
 function iniciarJuegoInfinito() {
-
     currentMode = "infinite";
 
     prepararPartida();
 
     gameInfoTitle.textContent = "Average";
-
-    cargarRecord();
-
     actualizarPromedio();
-
 }
 
-timeButtons.forEach(button=>{
-
-    button.addEventListener("click",()=>{
-
-        timerScreen.style.display="none";
-
-        iniciarJuegoContrarreloj(
-
-            Number(button.dataset.time)
-
-        );
-
-    });
-
-});
-
 function iniciarJuegoContrarreloj(segundos) {
+    if (!Number.isFinite(segundos) || segundos <= 0) {
+        return;
+    }
 
     currentMode = "timer";
 
@@ -184,31 +206,50 @@ function iniciarJuegoContrarreloj(segundos) {
 
     gameInfoTitle.textContent = "Time";
 
-    remainingTime = segundos;
+    timerEndTime = Date.now() + segundos * 1000;
 
     actualizarTiempo();
 
-    timerInterval = setInterval(() => {
-
-        remainingTime--;
-
-        actualizarTiempo();
-
-        if (remainingTime <= 0) {
-
-            clearInterval(timerInterval);
-
-            terminarJuego();
-
-        }
-
-    }, 1000);
-
+    timerInterval = setInterval(
+        controlarTemporizador,
+        250
+    );
 }
 
 
 // =========================
-// Eventos principales
+// Temporizador
+// =========================
+
+function controlarTemporizador() {
+    actualizarTiempo();
+
+    if (remainingTime <= 0) {
+        terminarJuego();
+    }
+}
+
+function actualizarTiempo() {
+    const milisegundosRestantes =
+        Math.max(0, timerEndTime - Date.now());
+
+    remainingTime =
+        Math.ceil(milisegundosRestantes / 1000);
+
+    const minutos =
+        Math.floor(remainingTime / 60);
+
+    const segundos =
+        remainingTime % 60;
+
+    gameInfoValue.textContent =
+        `${String(minutos).padStart(2, "0")}:` +
+        `${String(segundos).padStart(2, "0")}`;
+}
+
+
+// =========================
+// Eventos de navegación
 // =========================
 
 btnInfinite.addEventListener(
@@ -217,15 +258,18 @@ btnInfinite.addEventListener(
 );
 
 btnTimer.addEventListener("click", () => {
-    menuScreen.style.display = "none";
-    timerScreen.style.display = "flex";
+    mostrarPantalla(timerScreen);
+});
+
+timeButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        const segundos = Number(button.dataset.time);
+        iniciarJuegoContrarreloj(segundos);
+    });
 });
 
 btnBackTimer.addEventListener("click", () => {
-
-    timerScreen.style.display = "none";
-    menuScreen.style.display = "block";
-
+    mostrarPantalla(menuScreen);
 });
 
 btnStop.addEventListener(
@@ -234,107 +278,71 @@ btnStop.addEventListener(
 );
 
 btnMenu.addEventListener("click", () => {
-
-    summaryScreen.style.display = "none";
-    menuScreen.style.display = "block";
-
+    mostrarPantalla(menuScreen);
 });
 
 btnRecordsMenu.addEventListener("click", () => {
-
-    recordsScreen.style.display = "none";
-    menuScreen.style.display = "block";
-
+    mostrarPantalla(menuScreen);
 });
 
 btnRecords.addEventListener("click", () => {
-
     mostrarRecords();
-
-    menuScreen.style.display = "none";
-    recordsScreen.style.display = "flex";
-
+    mostrarPantalla(recordsScreen);
 });
-
-function reiniciarRecords() {
-
-    const confirmar = confirm(
-        "Are you sure you want to delete all records?"
-    );
-
-    if (!confirmar) {
-        return;
-    }
-
-    const claves = [
-        "suma_facil",
-        "suma_dificil",
-        "resta_facil",
-        "resta_dificil",
-        "multiplicacion_facil",
-        "multiplicacion_dificil",
-        "division_facil",
-        "division_dificil"
-    ];
-
-    claves.forEach(clave => {
-
-        localStorage.removeItem(clave);
-
-    });
-
-    recordsList.innerHTML =
-        "<p>No records yet.</p>";
-
-}
 
 btnResetRecords.addEventListener(
     "click",
     reiniciarRecords
 );
 
+
 // =========================
 // Respuesta automática
 // =========================
 
-answerInput.addEventListener(
-    "input",
-    () => {
+answerInput.addEventListener("input", () => {
+    answerInput.value =
+        answerInput.value.replace(/\D/g, "");
 
-        answerInput.value =
-            answerInput.value.replace(/\D/g, "");
-
-        if (
-            answerInput.value ===
-            String(currentProblem.respuesta)
-        ) {
-
-            const tiempoRespuesta =
-                Date.now() - operationStartTime;
-
-            totalTime += tiempoRespuesta;
-
-            solvedOperations++;
-
-            if (currentMode === "infinite") {
-
-                actualizarPromedio();
-
-            }
-
-            generarNuevaOperacion();
-
-        }
-
+    if (!gameActive || currentProblem === null) {
+        return;
     }
-);
+
+    if (
+        currentMode === "timer" &&
+        Date.now() >= timerEndTime
+    ) {
+        terminarJuego();
+        return;
+    }
+
+    const respuestaCorrecta =
+        answerInput.value ===
+        String(currentProblem.respuesta);
+
+    if (!respuestaCorrecta) {
+        return;
+    }
+
+    const tiempoRespuesta =
+        Date.now() - operationStartTime;
+
+    totalTime += tiempoRespuesta;
+    solvedOperations++;
+
+    if (currentMode === "infinite") {
+        actualizarPromedio();
+    }
+
+    generarNuevaOperacion();
+});
+
 
 // =========================
 // Local Storage
 // =========================
 
 function obtenerClaveRecord() {
-
     const operacion = document.querySelector(
         'input[name="operacion"]:checked'
     ).value;
@@ -344,205 +352,209 @@ function obtenerClaveRecord() {
     ).value;
 
     return `${operacion}_${rango}`;
-
 }
 
-function cargarRecord() {
+function leerRecord(clave) {
+    try {
+        const valor = localStorage.getItem(clave);
 
+        if (valor === null) {
+            return null;
+        }
+
+        const record = Number(valor);
+
+        return Number.isFinite(record)
+            ? record
+            : null;
+
+    } catch (error) {
+        console.warn(
+            "The record could not be read.",
+            error
+        );
+
+        return null;
+    }
+}
+
+function guardarRecord(clave, promedio) {
+    try {
+        localStorage.setItem(
+            clave,
+            String(promedio)
+        );
+
+        return true;
+
+    } catch (error) {
+        console.warn(
+            "The record could not be saved.",
+            error
+        );
+
+        return false;
+    }
+}
+
+function intentarGuardarRecord(promedio) {
     const clave = obtenerClaveRecord();
+    const recordAnterior = leerRecord(clave);
 
-    const record = localStorage.getItem(clave);
+    const esNuevoRecord =
+        recordAnterior === null ||
+        promedio < recordAnterior;
 
-    if (record === null) {
-
-        currentRecord = null;
-
-        return;
-
+    if (!esNuevoRecord) {
+        return false;
     }
 
-    currentRecord = Number(record);
-
+    return guardarRecord(clave, promedio);
 }
 
-function guardarRecord(promedio) {
-
-    const clave = obtenerClaveRecord();
-
-    localStorage.setItem(clave, promedio);
-
-    currentRecord = promedio;
-
-}
 
 // =========================
-// Records
+// Pantalla de récords
 // =========================
 
 function mostrarRecords() {
+    recordsList.replaceChildren();
 
-    recordsList.innerHTML = "";
+    const fragmento =
+        document.createDocumentFragment();
 
-    const records = [
+    RECORDS.forEach(record => {
+        const valor = leerRecord(record.clave);
 
-        {
-            clave: "suma_facil",
-            operacion: "Addition",
-            numeros: "2 digits"
-        },
-
-        {
-            clave: "suma_dificil",
-            operacion: "Addition",
-            numeros: "3 digits"
-        },
-
-        {
-            clave: "resta_facil",
-            operacion: "Subtraction",
-            numeros: "2 digits"
-        },
-
-        {
-            clave: "resta_dificil",
-            operacion: "Subtraction",
-            numeros: "3 digits"
-        },
-
-        {
-            clave: "multiplicacion_facil",
-            operacion: "Multiplication",
-            numeros: "1 digit"
-        },
-
-        {
-            clave: "multiplicacion_dificil",
-            operacion: "Multiplication",
-            numeros: "2 digits"
-        },
-
-        {
-            clave: "division_facil",
-            operacion: "Division",
-            numeros: "1 digit"
-        },
-
-        {
-            clave: "division_dificil",
-            operacion: "Division",
-            numeros: "2 digits"
+        if (valor === null) {
+            return;
         }
 
-    ];
+        const bloque =
+            document.createElement("article");
 
-    records.forEach(record => {
+        bloque.className = "record-item";
 
-    const valor = localStorage.getItem(record.clave);
+        const operacion =
+            document.createElement("p");
 
-    if (valor === null) {
+        operacion.className = "record-operation";
+        operacion.textContent = record.operacion;
+
+        const numeros =
+            document.createElement("p");
+
+        numeros.textContent = record.numeros;
+
+        const tiempo =
+            document.createElement("p");
+
+        tiempo.className = "record-time";
+        tiempo.textContent =
+            `${valor.toFixed(2)} s`;
+
+        bloque.append(
+            operacion,
+            numeros,
+            tiempo
+        );
+
+        fragmento.appendChild(bloque);
+    });
+
+    if (!fragmento.hasChildNodes()) {
+        const mensaje =
+            document.createElement("p");
+
+        mensaje.textContent =
+            "No records yet.";
+
+        fragmento.appendChild(mensaje);
+    }
+
+    recordsList.appendChild(fragmento);
+}
+
+function reiniciarRecords() {
+    const confirmar = confirm(
+        "Are you sure you want to delete all records?"
+    );
+
+    if (!confirmar) {
         return;
     }
 
-    const bloque = document.createElement("div");
+    RECORDS.forEach(record => {
+        try {
+            localStorage.removeItem(record.clave);
+        } catch (error) {
+            console.warn(
+                "A record could not be deleted.",
+                error
+            );
+        }
+    });
 
-    bloque.innerHTML = `
-        <p>${record.operacion}</p>
-        <p>${record.numeros}</p>
-        <p>${Number(valor).toFixed(2)} s</p>
-        <hr>
-    `;
-
-    recordsList.appendChild(bloque);
-
-});
-
-if (recordsList.children.length === 0) {
-    recordsList.innerHTML = "<p>No records yet.</p>";
+    mostrarRecords();
 }
-}
+
 
 // =========================
 // Estadísticas
 // =========================
 
-function actualizarPromedio() {
-
+function calcularPromedio() {
     if (solvedOperations === 0) {
-
-        if (currentRecord === null) {
-
-            gameInfoValue.textContent = "0.00 s";
-
-        } else {
-
-            gameInfoValue.textContent =
-                currentRecord.toFixed(2) + " s";
-
-        }
-
-        return;
-
+        return 0;
     }
 
-    const promedio =
+    return (
         totalTime /
         solvedOperations /
-        1000;
-
-    if (
-        currentRecord === null ||
-        promedio < currentRecord
-    ) {
-
-        guardarRecord(promedio);
-
-    }
-
-    gameInfoValue.textContent =
-        promedio.toFixed(2) + " s";
-
+        1000
+    );
 }
 
-function actualizarTiempo() {
-
-    const minutos =
-        Math.floor(remainingTime / 60);
-
-    const segundos =
-        remainingTime % 60;
+function actualizarPromedio() {
+    const promedio = calcularPromedio();
 
     gameInfoValue.textContent =
-        `${String(minutos).padStart(2, "0")}:${String(segundos).padStart(2, "0")}`;
-
+        `${promedio.toFixed(2)} s`;
 }
+
 
 // =========================
 // Finalizar partida
 // =========================
 
 function terminarJuego() {
-
-    if (timerInterval !== null) {
-        clearInterval(timerInterval);
-        timerInterval = null;
+    if (!gameActive) {
+        return;
     }
 
-    gameScreen.style.display = "none";
-    summaryScreen.style.display = "flex";
+    gameActive = false;
 
-    summaryOperations.textContent = solvedOperations;
+    detenerTemporizador();
 
-    if (solvedOperations === 0) {
+    answerInput.disabled = true;
+    currentProblem = null;
 
-        summaryAverage.textContent = "0.00 s";
+    const promedio = calcularPromedio();
 
-    } else {
+    summaryOperations.textContent =
+        String(solvedOperations);
 
-        summaryAverage.textContent =
-            (totalTime / solvedOperations / 1000).toFixed(2) + " s";
+    summaryAverage.textContent =
+        `${promedio.toFixed(2)} s`;
 
-    }
+    const hayNuevoRecord =
+        solvedOperations > 0 &&
+        intentarGuardarRecord(promedio);
 
+    summaryRecord.hidden =
+        !hayNuevoRecord;
+
+    mostrarPantalla(summaryScreen);
 }
 
 
@@ -551,7 +563,6 @@ function terminarJuego() {
 // =========================
 
 function generarNuevaOperacion() {
-
     const operacion = document.querySelector(
         'input[name="operacion"]:checked'
     ).value;
@@ -561,7 +572,6 @@ function generarNuevaOperacion() {
     ).value;
 
     switch (operacion) {
-
         case "suma":
             currentProblem = generarSuma(rango);
             break;
@@ -571,22 +581,28 @@ function generarNuevaOperacion() {
             break;
 
         case "multiplicacion":
-            currentProblem = generarMultiplicacion(rango);
+            currentProblem =
+                generarMultiplicacion(rango);
             break;
 
         case "division":
-            currentProblem = generarDivision(rango);
+            currentProblem =
+                generarDivision(rango);
             break;
 
+        default:
+            throw new Error(
+                `Unknown operation: ${operacion}`
+            );
     }
 
-    operationElement.textContent = currentProblem.texto;
+    operationElement.textContent =
+        currentProblem.texto;
 
     answerInput.value = "";
     answerInput.focus();
 
     operationStartTime = Date.now();
-
 }
 
 
@@ -595,11 +611,19 @@ function generarNuevaOperacion() {
 // =========================
 
 function numeroAleatorio(min, max) {
-
     return Math.floor(
         Math.random() * (max - min + 1)
     ) + min;
+}
 
+function obtenerLimites(
+    rango,
+    limitesFaciles,
+    limitesDificiles
+) {
+    return rango === "facil"
+        ? limitesFaciles
+        : limitesDificiles;
 }
 
 
@@ -608,134 +632,79 @@ function numeroAleatorio(min, max) {
 // =========================
 
 function generarSuma(rango) {
-
-    let minimo;
-    let maximo;
-
-    if (rango === "facil") {
-
-        minimo = 10;
-        maximo = 99;
-
-    } else {
-
-        minimo = 100;
-        maximo = 999;
-
-    }
+    const [minimo, maximo] =
+        obtenerLimites(
+            rango,
+            [10, 99],
+            [100, 999]
+        );
 
     const a = numeroAleatorio(minimo, maximo);
     const b = numeroAleatorio(minimo, maximo);
 
     return {
-
         texto: `${a} + ${b}`,
         respuesta: a + b
-
     };
-
 }
 
-
 function generarResta(rango) {
-
-    let minimo;
-    let maximo;
-
-    if (rango === "facil") {
-
-        minimo = 10;
-        maximo = 99;
-
-    } else {
-
-        minimo = 100;
-        maximo = 999;
-
-    }
+    const [minimo, maximo] =
+        obtenerLimites(
+            rango,
+            [10, 99],
+            [100, 999]
+        );
 
     let a = numeroAleatorio(minimo, maximo);
     let b = numeroAleatorio(minimo, maximo);
 
     if (b > a) {
-
         [a, b] = [b, a];
-
     }
 
     return {
-
         texto: `${a} - ${b}`,
         respuesta: a - b
-
     };
-
 }
 
-
 function generarMultiplicacion(rango) {
-
-    let minimo;
-    let maximo;
-
     if (rango === "facil") {
+        const a = numeroAleatorio(1, 9);
+        const b = numeroAleatorio(1, 9);
 
-        minimo = 1;
-        maximo = 9;
-
-    } else {
-
-        minimo = 10;
-        maximo = 99;
-
+        return {
+            texto: `${a} × ${b}`,
+            respuesta: a * b
+        };
     }
 
-    const a = numeroAleatorio(minimo, maximo);
+    const a = numeroAleatorio(10, 99);
 
     const b = Math.random() < 0.7
         ? numeroAleatorio(1, 9)
-        : numeroAleatorio(minimo, maximo);
+        : numeroAleatorio(10, 99);
 
     return {
-
         texto: `${a} × ${b}`,
         respuesta: a * b
-
     };
-
 }
 
-
 function generarDivision(rango) {
-
-    let minimo;
-    let maximo;
-
-    if (rango === "facil") {
-
-        minimo = 1;
-        maximo = 9;
-
-    } else {
-
-        minimo = 10;
-        maximo = 99;
-
-    }
-
-    const divisor = Math.random() < 0.7
+    const divisor = rango === "facil"
         ? numeroAleatorio(1, 9)
-        : numeroAleatorio(minimo, maximo);
+        : numeroAleatorio(10, 99);
 
-    const cociente = numeroAleatorio(2, 20);
+    const cociente =
+        numeroAleatorio(2, 20);
 
-    const dividendo = divisor * cociente;
+    const dividendo =
+        divisor * cociente;
 
     return {
-
         texto: `${dividendo} ÷ ${divisor}`,
         respuesta: cociente
-
     };
-
 }
